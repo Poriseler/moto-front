@@ -1,8 +1,9 @@
+import CreateEditArticleForm from "../ui/CreateEditArticleForm"
+
+
 function CreateArticle() {
     return (
-        <div>
-            
-        </div>
+        <CreateEditArticleForm />
     )
 }
 
