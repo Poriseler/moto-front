@@ -1,11 +1,28 @@
 import { useForm } from "react-hook-form"
-import CheckboxFieldset from "../ui/CheckboxFieldset"
+// import CheckboxFieldset from "../ui/CheckboxFieldset"
 import FormRow from "../ui/FormRow"
 import { useEditArticle } from "../hooks/useEditArticle"
 import { useCreateArticle } from "../hooks/useCreateArticle"
+import { useEffect, useState } from "react"
+// import { useTags } from "../hooks/useTags"
+// import { useQueryClient } from "@tanstack/react-query"
+import { getTags } from "../services/apiArticles"
+
+
 
 function CreateEditArticleForm({articleToEdit = {}}) {
-    const exisitingTags = ['Premiera', 'F1', 'Motorsport']
+    // const queryClient = useQueryClient()
+    const [exisitingTags, setExisitngTags] = useState([])
+    useEffect(()=> {
+        getTags().then((tags) => setExisitngTags(tags))
+    },[])
+    const token = sessionStorage.getItem('token')
+    
+    // const { loadTags } = useTags()
+    // loadTags()
+    // const exisitingTags = queryClient.getQueryData(['tags'])
+
+    
     const { slug: editSlug, ...editValues } = articleToEdit
     const isEdit = Boolean(editSlug)
     const { register, handleSubmit, reset, formState } = useForm({
@@ -16,21 +33,21 @@ function CreateEditArticleForm({articleToEdit = {}}) {
     const { isCreating, createArticle } = useCreateArticle()
 
     const isWorking = isEditing || isCreating
-
+    
     function onSubmit(data) {
-
+        
         if (isEdit)
             editArticle(
-                { newData: { ...data}, slug: editSlug},{
+                { newData: { ...data, token: token}, slug: editSlug},{
                     onSuccess: () => {
                     reset()
                 }}
                 )
         else
             createArticle(
-                { newData: { ...data}},{
+                { newData: { ...data, token: token}},{
                     onSuccess: () => {
-                        reset()
+                        // reset()
                     }
                 }
         )
@@ -53,29 +70,40 @@ function CreateEditArticleForm({articleToEdit = {}}) {
                     })} className="border-slate-700 border rounded-lg ps-3 py-1"/>
                 </FormRow>
                 <FormRow label='Główny tekst' error={errors?.name?.message}>
-                    <textarea type="text" id="glowny-tekst" rows="15" cols="40" {...register('glowny-tekst', {
+                    <textarea type="text" id="glownyTekst" rows="15" cols="40" {...register('glownyTekst', {
                         required: 'This field is required'
                     })} className="border-slate-700 border rounded-lg ps-3 py-1"/>
                 </FormRow>
                 <FormRow label='Źródło zdjęć' error={errors?.name?.message}>
-                    <input type="text" id="zrodlo-zdjec" defaultValue="materiały producenta" {...register('zrodlo-zdjec', {
+                    <input type="text" id="zrodloZdjec" defaultValue="materiały producenta" {...register('zrodloZdjec', {
                         required: 'This field is required'
                     })} className="border-slate-700 border rounded-lg ps-3 py-1"/>
                 </FormRow>
                 <FormRow label='Kategoria' error={errors?.name?.message}>
-                    <select  id="kategoria" className="border-slate-700 border rounded-lg text-center py-1">
+                    <select  id="kategoria" {...register('kategoria')} className="border-slate-700 border rounded-lg text-center py-1">
                         <option value="newsy">Newsy</option>
                         <option value="felietony">Felietony</option>
                         <option value="relacje">Relacje</option>
                         <option value="testy">Testy</option>
                     </select>
                 </FormRow>
-                <FormRow label='Istniejące tagi' error={errors?.name?.message}>
-                    <CheckboxFieldset name='istniejace-tagi' labels={exisitingTags} />
-                    {/* <input type="text" id="istniejace-tagi" className="border-slate-700 border rounded-lg"/> */}
+                
+                 <FormRow label='Istniejące tagi' error={errors?.name?.message}>
+                    <div className="flex flex-col max-h-[6rem] overflow-auto">
+                    {exisitingTags && (exisitingTags.map(label=>
+
+                        <div key={label} className="flex flex-row "> 
+                            <label htmlFor={label} className="grow pe-3">
+                                {label}
+                            </label>
+                            <input className="mx-2 self-end" type="checkbox" {...register('istniejaceTagi')} id={label} value={label}/>
+                        </div>))
+                    }
+                    </div>
                 </FormRow>
+
                 <FormRow label='Nowe tagi' error={errors?.name?.message}>
-                    <input type="text" id="nowe-tagi" className="border-slate-700 border rounded-lg ps-3 py-1"/>
+                    <input type="text" id="noweTagi" {...register('noweTagi')} className="border-slate-700 border rounded-lg ps-3 py-1"/>
                 </FormRow>
                 <FormRow label='Miniaturka'  error={errors?.name?.message}>
                     <input type="file" id="miniaturka" accept="image/*" {...register('miniaturka', {

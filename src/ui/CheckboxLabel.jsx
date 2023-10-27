@@ -1,9 +1,12 @@
-function CheckboxLabel({labelName, name}) {
-    return (
-        <label className=" pe-3">
-            <input className="mx-2" type="checkbox" id={labelName} name={name} value={labelName}/>
-            {labelName}
-        </label>
+
+function CheckboxLabel({labelName,  register}) {
+            return (<>
+            <label htmlFor={labelName} className=" pe-3">
+                    {labelName}
+            </label>
+            <input className="mx-2" type="checkbox" {...register('istniejace-tagi', {setValueAs: () => 'bill'})} id={labelName}/>
+            </>
+
     )
 }
 

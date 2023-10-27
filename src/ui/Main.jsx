@@ -8,13 +8,13 @@ function Main() {
             <SectionTitle>Najnowsze</SectionTitle>
             <HeroSection />
             <SectionTitle>Newsy</SectionTitle>
-            <ArticlesSection />
+            <ArticlesSection type="newsy" key="newsy"/>
             <SectionTitle>Testy</SectionTitle>
-            <ArticlesSection />
+            <ArticlesSection type="testy" key="testy"/>
             <SectionTitle>Relacje</SectionTitle>
-            <ArticlesSection />
+            <ArticlesSection type="relacje" key="relacje"/>
             <SectionTitle>Felietony</SectionTitle>
-            <ArticlesSection />
+            <ArticlesSection type="felietony" key="felietony"/>
         </div>
     )
 }

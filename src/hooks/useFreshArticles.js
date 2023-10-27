@@ -9,7 +9,7 @@ export function useFreshArticles() {
     } = useQuery({
         queryKey: ['newArticles'],
         queryFn: async () => {
-           const data = await getArticles(4)
+           const data = await getArticles(5)
            return data
 }})
     console.log(freshArticles)

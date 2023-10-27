@@ -48,8 +48,11 @@ function ArticleList() {
     //     }
     // ]
     const { tag } = useParams()
+    const { kategoria } = useParams()
+    
     const {articles, isLoading: isLoadingArticles} = useArticlesByTag(tag)
     
+    console.log(kategoria)
     return (<>
         <SectionTitle>{capitalize(tag) }</SectionTitle>
         {!isLoadingArticles && <ArticleListLayout articles={articles} />}

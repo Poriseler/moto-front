@@ -30,7 +30,8 @@ function App() {
             <Route index element={<Homepage />} />
             <Route path="/artykuly/:slug" element={<ArticleDetails />} />
             <Route path="/artykuly/:slug/edytuj" element={<EditArticle /> } />
-            <Route path="/artykuly/kategorie/:tag" element={<ArticleList />} />
+            <Route path="/artykuly/tagi/:tag" element={<ArticleList />} />
+            <Route path="/artykuly/kategorie/:kategoria" element={<ArticleList />} />
             <Route path='/dodaj-artykul/' element={<CreateArticle />} />
             <Route path="/szukaj/" element={<SearchResults />} />
           </Route>

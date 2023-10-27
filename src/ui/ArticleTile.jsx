@@ -9,7 +9,7 @@ function ArticleTile({img, header, type, slug}) {
     }
 
     const stylesImg = {
-        'hero': '',
+        'hero': 'w-[100%]',
         'main-new': 'min-h-[15rem] md:h-[18rem] w-[100%] md:w-[100%] ',
         'list': 'w-[100%] md:w-[14rem] h-auto md:h-[9rem]'
     }
