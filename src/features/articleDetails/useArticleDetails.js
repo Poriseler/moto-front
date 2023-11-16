@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getArticleDetails } from "../services/apiArticles"
+import { getArticleDetails } from "../../services/apiArticles"
 
 export function useArticleDetails(slug) {
     const {

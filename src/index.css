@@ -34,3 +34,13 @@
     display: block;
     
 }
+
+
+.pswp img {
+max-width: none;
+object-fit: contain;
+}
+
+.pswp__img--placeholder--blank {
+display: none !important;
+}

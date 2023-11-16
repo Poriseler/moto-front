@@ -1,11 +1,7 @@
-import Main from "../ui/Main"
+import Main from '../ui/Main';
 
 function Homepage() {
-    return (
-        
-            <Main />
-        
-    )
+  return <Main />;
 }
 
-export default Homepage
+export default Homepage;

@@ -13,11 +13,14 @@
     "@heroicons/react": "^2.0.18",
     "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-query-devtools": "^5.0.1",
+    "photoswipe": "^5.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
-    "react-router-dom": "^6.17.0"
+    "react-photoswipe-gallery": "^2.2.7",
+    "react-router-dom": "^6.17.0",
+    "simple-react-lightbox": "^3.6.9-0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

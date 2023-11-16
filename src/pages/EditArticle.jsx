@@ -1,11 +1,7 @@
+import CreateEditArticleForm from '../features/createEditArticle/CreateEditArticleForm';
 
-import CreateEditArticleForm from "../ui/CreateEditArticleForm"
-
-function EditArticle({articleData}) {
-
-    return (
-        <CreateEditArticleForm articleToEdit={articleData}/>
-    )
+function EditArticle({ articleData }) {
+  return <CreateEditArticleForm articleToEdit={articleData} />;
 }
 
-export default EditArticle
+export default EditArticle;

@@ -12,6 +12,6 @@ export function useFreshArticles() {
            const data = await getArticles(5)
            return data
 }})
-    console.log(freshArticles)
+    
     return {isLoading, freshArticles, error}
 }

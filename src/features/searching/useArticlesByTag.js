@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { getArticlesByTag } from "../services/apiArticles"
+import { getArticlesByTag } from "../../services/apiArticles"
 
 export function useArticlesByTag(tag, limit=undefined) {
     const {
