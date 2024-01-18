@@ -12,7 +12,7 @@ function ArticlesSection({ type }) {
     <div className="w-[100%] md:w-[60%]  px-5">
       <div className=" flex flex-row flex-wrap gap-4 justify-between ">
         {articles?.map((article) => (
-          <ArticleTile img={article.thumbnail} header={article.header} key={`${type}-${article.id}`} type="main-new" />
+          <ArticleTile img={article.thumbnail} header={article.header} key={`${type}-${article.id}`} type="mainNew" slug={article.slug}/>
         ))}
       </div>
     </div>

@@ -95,7 +95,7 @@ export async function createArticle({newData}) {
     const urlArticle = `http://127.0.0.1:8000/api/articles/articles/`
     console.log(newData)
     
-    const { header, lead, main_text, photos_source, category, istniejaceTagi, miniaturka, zdjecia, token, noweTagi } = newData
+    const { header, lead, main_text, photos_source, category, istniejaceTagi, thumbnail, photos, token, noweTagi } = newData
     const tags = mergeTags(noweTagi, istniejaceTagi)
     const articlePayload = { 
         'header': header,
@@ -106,7 +106,7 @@ export async function createArticle({newData}) {
         'tags': tags
 
     }
-    
+    console.log()
     const headers = {
         'Authorization': `Token ${token}`,
         'Content-Type': 'application/json'
@@ -119,12 +119,11 @@ export async function createArticle({newData}) {
     const data = await res.json()
     const slug = await data.slug
     
-    const thumbnailRes = await uploadThumbnail(miniaturka, slug, token)
+    const thumbnailRes = await uploadThumbnail(thumbnail, slug, token)
     const thumbnailData = await thumbnailRes.json()
     console.log(thumbnailData)
-    const photosRes = await uploadPhotos(zdjecia, slug, token)
+    const photosRes = await uploadPhotos(photos, slug, token)
     const photoData = await photosRes.json()
-    console.log(photoData)
 
     return photoData
     

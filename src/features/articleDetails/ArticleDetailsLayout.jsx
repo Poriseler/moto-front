@@ -5,53 +5,68 @@ import RelatedArticlesLayout from './RelatedArticlesLayout';
 import Tag from '../../ui/Tag';
 import PhotoSwipe from 'photoswipe';
 import Overlay from '../../ui/Overlay';
-import { useState } from 'react';
+import {  useEffect, useState } from 'react';
 import CreateEditArticleForm from '../createEditArticle/CreateEditArticleForm';
-import { useParams } from 'react-router-dom';
+import Spinner from '../../ui/Spinner';
+// import { useParams } from 'react-router-dom';
 
 function ArticleDetailsLayout({ articleData }) {
   const { photos, isLoading: isLoadingPhotos } = useArticlePhotos(articleData.id);
-  console.log(isLoadingPhotos);
-  const {slug} = useParams()
+  console.log(articleData)
+  const {slug} = articleData.slug 
   const [showEditForm, setShowEditForm] = useState(false)
   
   const isLoggedIn = sessionStorage.getItem('token')
   const { articles: relatedArticles, isLoading: isLoadingRelatedArticles } = useArticlesByTag(
-    articleData.tags[0].slug,
-    5
+    articleData?.tags[0]?.slug,5
   );
   const options = {
     dataSource: [],
     showHideAnimationType: 'none',
+    index: 0
   };
 
-  console.log(articleData)
+  useEffect(()=>{
+    if (showEditForm) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+  }}, [showEditForm]);
 
   function handleClick() {
-    options.dataSource.push({
-        src: articleData.thumbnail,
-        width: 1200,
-        height: 800,
-      })
-    photos?.map((photo) =>
-      options.dataSource.push({
-        src: photo.photo,
-        width: 1200,
-        height: 800,
-      })
+    if (!photos || isLoadingPhotos) return;
+    
+    let allPhotos = [];
+    allPhotos.push({
+      src: articleData.thumbnail,
+      width: 1200,
+      height: 800,
+    })
+    photos.map((photo) =>
+    allPhotos.push({
+      src: photo.photo,
+      width: 1200,
+      height: 800,
+    })
     );
-
-    options.index = 0;
+    options.dataSource = allPhotos;
     const pswp = new PhotoSwipe(options);
     pswp.init();
   }
+
+  if (!articleData || isLoadingPhotos) return (<Spinner />)
+
   return (
+    
     <article className="w-[90%] md:w-[55%] mt-12 flex flex-col items-center">
-      {showEditForm && <Overlay><CreateEditArticleForm articleToEdit={{slug: slug, ...articleData }}/></Overlay>}
+      {showEditForm && <Overlay><CreateEditArticleForm articleToEdit={{slug: slug, ...articleData }} setShowEditForm={setShowEditForm}/></Overlay>}
         {isLoggedIn && <button onClick={() => setShowEditForm(true)} ><HiPencilSquare className='h-8 w-8'/> </button>}
       
-      <h1 className=" text-3xl md:text-5xl font-semibold text-left font-header w-full">{articleData.header}</h1>
-      <div className="flex flex-row items-center justify-between w-[100%] mt-4">
+      <h1 className=" text-3xl md:text-5xl font-semibold text-left font-header w-full drop-shadow-md">{articleData.header}</h1>
+      <div className="flex flex-row items-center justify-between w-[100%] mt-4 border-s-4 border-orange-400 ps-2">
         <h3 className="">10.10.2023 | Aleksander Kamiński</h3>
         <div className="flex flex-row gap-3">
           <a href="#">
@@ -81,7 +96,7 @@ function ArticleDetailsLayout({ articleData }) {
       </div>
       <div className="grid grid-rows-[auto_auto_auto] md:grid-rows-[auto_auto] grid-cols-3 gap-6 mt-10">
         <div className="col-span-3 md:col-span-2">
-          <p className="text-justify self-start font-mainText">{articleData.main_text}</p>
+          <p className="text-justify self-start font-mainText break-words">{articleData.main_text}</p>
         </div>
         {!isLoadingRelatedArticles && (
           <RelatedArticlesLayout relatedArticles={relatedArticles} slug={articleData.slug} />

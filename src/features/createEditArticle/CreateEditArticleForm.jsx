@@ -3,10 +3,10 @@ import FormRow from '../../ui/FormRow';
 import { useEditArticle } from './useEditArticle';
 import { useCreateArticle } from './useCreateArticle';
 import { useEffect, useState } from 'react';
-
+import { HiXMark } from 'react-icons/hi2';
 import { getTags } from '../../services/apiArticles';
 
-function CreateEditArticleForm({ articleToEdit = {} }) {
+function CreateEditArticleForm({ articleToEdit = {}, setShowEditForm }) {
   const [exisitingTags, setExisitngTags] = useState([]);
   useEffect(() => {
     getTags().then((tags) => setExisitngTags(tags));
@@ -14,10 +14,12 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
   const token = sessionStorage.getItem('token');
 
   const { slug: editSlug, ...editValues } = articleToEdit;
-  console.log(editValues)
+  const editValuesWithTags = {...editValues, tags: editValues.tags.map(tag => tag.name)};
+
+  console.log(editValuesWithTags)
   const isEdit = Boolean(editSlug);
   const { register, handleSubmit, reset, formState } = useForm({
-    defaultValues: isEdit ? editValues : '',
+    defaultValues: isEdit ? editValuesWithTags : '',
   });
   const { errors } = formState;
   const { isEditing, editArticle } = useEditArticle();
@@ -31,7 +33,8 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
         { editData: { ...data, token: token }, slug: editSlug },
         {
           onSuccess: () => {
-            reset();
+            setShowEditForm(false);
+            
           },
         }
       );
@@ -40,7 +43,7 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
         { newData: { ...data, token: token } },
         {
           onSuccess: () => {
-            // reset()
+            reset()
           },
         }
       );
@@ -50,7 +53,8 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
     console.log(errors);
   }
   return (
-    <div className="mt-10  w-[90%] md:w-[60%] flex flex-col items-center bg-slate-100 opacity-60 rounded-xl p-10">
+    <div className={ (isEdit ? "opacity-90 " : "opacity-60 ") +  "my-10  w-[90%] md:w-[60%] flex flex-col items-center bg-slate-100 rounded-xl p-10"}>
+      <div onClick={()=>setShowEditForm(false)} className='self-end'> <HiXMark  className='h-8 w-8'/></div>
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
         action=""
@@ -141,7 +145,7 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
             className="border-slate-700 border rounded-lg ps-3 py-1"
           />
         </FormRow>
-        {!articleToEdit && <FormRow label="Miniaturka" error={errors?.name?.message}>
+        {!isEdit && <FormRow label="Miniaturka" error={errors?.name?.message}>
           <input
             type="file"
             id="thumbnail"
@@ -152,7 +156,7 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
             className="border-slate-700 border rounded-lg"
           />
         </FormRow>}
-        {!articleToEdit && <FormRow label="Zdjęcia" error={errors?.name?.message}>
+        {!isEdit && <FormRow label="Zdjęcia" error={errors?.name?.message}>
           <input
             type="file"
             multiple="multiple"
@@ -169,7 +173,7 @@ function CreateEditArticleForm({ articleToEdit = {} }) {
           type="submit"
           className="hover:border-slate-600 transition-all duration-300 border px-4 py-2 max-w-[10rem] border-slate-300 rounded-lg self-center"
         >
-          Dodaj artykuł
+          {isEdit ? "Zapisz zmiany" : "Dodaj artykuł"}
         </button>
       </form>
     </div>

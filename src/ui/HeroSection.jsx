@@ -28,7 +28,7 @@ function HeroSection() {
                   header={article.header}
                   slug={article.slug}
                   key={`hero-${article.id}`}
-                  type="main-new"
+                  type="mainNew"
                 />
               );
           })}

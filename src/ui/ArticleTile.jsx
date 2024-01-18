@@ -1,19 +1,20 @@
 function ArticleTile({ img, header, type, slug }) {
   const styles = {
     hero: 'mt-3 ',
-    'main-new': ' w-[100%] md:max-w-[47%] mt-4',
+    mainNew: ' w-[100%] md:max-w-[47%] mt-4',
     list: 'flex flex-col md:flex-row items-center  mb-4 md:mb-8',
   };
 
   const stylesImg = {
-    hero: 'w-[100%]',
-    'main-new': 'min-h-[15rem] md:h-[18rem] w-[100%] md:w-[100%] ',
+    hero: 'w-[100%] drop-shadow-xl',
+    mainNew: 'min-h-[15rem] md:h-[18rem] w-[100%] md:w-[100%] drop-shadow-lg',
     list: 'w-[100%] md:w-[14rem] h-auto md:h-[9rem]',
   };
 
   const stylesText = {
     hero: ' text-black text-lg md:text-3xl opacity-75 px-[1rem] md:px-[2rem] font-semibold',
     list: 'w-[100%] md:w-[60%] font-medium ',
+    mainNew: ''
   };
 
   return (
